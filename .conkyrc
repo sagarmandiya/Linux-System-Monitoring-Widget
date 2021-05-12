@@ -1,0 +1,150 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+Conky, a system monitor, based on torsmo
+
+Any original torsmo code is licensed under the BSD license
+
+All code written since the fork of torsmo is licensed under the GPL
+
+Please see COPYING for details
+
+Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+Copyright (c) 2005-2012 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]
+
+conky.config = {
+	own_window_argb_visual = true,
+	own_window_argb_value = 50,
+	double_buffer = true,
+    alignment = 'top_right',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+	default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=12',
+    gap_x = 5,
+    gap_y = 30,
+    minimum_height = 5,
+	minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false
+}
+
+conky.text = [[
+${time %H:%M:%S}${alignr}${time %d-%m-%y}
+
+${voffset -16}${font sans-serif:bold:size=35}${alignc}${time %l:%M %p}${font}
+
+${voffset 4}${alignc}${time %A %B %d, %Y}
+${font}${voffset -4}
+
+${font}SYSTEM ${hr 2}
+
+${scroll 16 $nodename - $sysname $kernel on $machine | }
+${color white}Uptime:$color $uptime
+${color white}Frequency (in MHz):$color $freq
+${color white}Frequency (in GHz):$color $freq_g
+${color white}RAM Usage:$color$mem/$memmax - $memperc% ${membar 4}
+${color white}Swap Usage:$color$swap/$swapmax - $swapperc% ${swapbar 4}
+
+${font}CPU & GPU ${hr 2}
+
+Core i7-8750H:${goto 200}Used${alignr}GHz
+Avg${goto 200}${if_match ${cpu cpu0}<10}  ${cpu cpu0}\
+${else}${if_match ${cpu cpu0}<100} ${cpu cpu0}\
+${else}${cpu cpu0}${endif}${endif}%${alignr}
+#core1 
+# FYI the if/then mess in each of these is to keep the number position 
+# from shifting back and forth if 1, 2 or 3 digits are necessary to display 
+# the used percent.
+Core1${goto 200}${if_match ${cpu cpu1}<10}  ${cpu cpu1}\
+${else}${if_match ${cpu cpu1}<100} ${cpu cpu1}\
+${else}${cpu cpu1}${endif}${endif}%${alignr}${freq_g 1}
+#core2
+Core2${goto 200}${if_match ${cpu cpu2}<10}  ${cpu cpu2}\
+${else}${if_match ${cpu cpu2}<100} ${cpu cpu2}\
+${else}${cpu cpu2}${endif}${endif}%${alignr}${freq_g 2}
+#core3
+Core3${goto 200}${if_match ${cpu cpu3}<10}  ${cpu cpu3}\
+${else}${if_match ${cpu cpu3}<100} ${cpu cpu3}\
+${else}${cpu cpu3}${endif}${endif}%${alignr}${freq_g 3}
+#core4
+Core4${goto 200}${if_match ${cpu cpu4}<10}  ${cpu cpu4}\
+${else}${if_match ${cpu cpu4}<100} ${cpu cpu4}\
+${else}${cpu cpu4}${endif}${endif}%${alignr}${freq_g 4}
+#core5
+Core5${goto 200}${if_match ${cpu cpu5}<10}  ${cpu cpu5}\
+${else}${if_match ${cpu cpu5}<100} ${cpu cpu5}\
+${else}${cpu cpu5}${endif}${endif}%${alignr}${freq_g 5}
+#core6
+Core6${goto 200}${if_match ${cpu cpu6}<10}  ${cpu cpu6}\
+${else}${if_match ${cpu cpu6}<100} ${cpu cpu6}\
+${else}${cpu cpu6}${endif}${endif}%${alignr}${freq_g 6}
+
+#Option 3 in instructions above (commented out because i use option 2 now; #3 does 
+#  give 1 extra decimal precision though
+CPU${goto 60}Core i7-8750H${alignr}${execi 2 sensors | grep "Package id 0:" | cut -c 17-18}C
+GPU${goto 60}GTX 1050TI${alignr}${nvidia temp}C
+#                                {execi 2 nvidia-settings -query [gpu:0]/GPUCoreTemp -t}C
+#                                {execi 2 nvidia-smi -q -a| grep "GPU Current Temp" | cut -c 44-46}C
+#Hdd temp listings
+HD0${goto 60}Kingston-SSD${alignr}${exec hddtemp /dev/sda | cut -c 54-56}C
+HD1${goto 60}Seagate HDD${alignr}${exec hddtemp /dev/sdb | cut -c 32-34}C
+
+${color white}CPU Usage:$color $cpu% ${alignc}
+${color white}GPU Usage:$color ${nvidia gpuutil}% 
+${color white}Battery: Remaining:$color${battery_percent BAT1}% ${alignr}Health: ${execi 14400 acpi -V | grep 3220 | cut -c 68-71}
+
+${color white}Processes:$color $processes  ${color white}Running:$color $running_processes
+
+${color white}File Systems Usage ${hr 2}
+
+*Root $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+*Home $color${fs_used /home/}/${fs_size /home/}  ${fs_bar 6 /home/}
+
+${color white}Networking: ${hr 2}
+#
+# Internal IP: ${execi 2 ifconfig wlp0s20f3| grep "inet " | cut -c 14-27}
+
+WiFI Speed:
+Download:$color ${downspeed wlp0s20f3} Upload:$color ${upspeed wlp0s20f3} ${color white}
+
+${color white}Top Processes: ${hr 2}
+
+${color white} Name              PID    CPU%   MEM%
+${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+]]
