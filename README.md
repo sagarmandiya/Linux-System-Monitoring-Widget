@@ -2,7 +2,7 @@
 
 ---
 
-## In this repo, I share my own conky-widget theme, that I use to monitor my linux system. 
+In this repo, I share my own conky-widget theme, that I use to monitor my linux system. 
 
 <br>
 
@@ -14,59 +14,59 @@
 
 <hr>
 
-## With this conky widget theme you can monitor the following items, if present in your Linux Computer:
+With this conky widget theme you can monitor the following items, if present in your Linux Computer:
 
 <br>
 
-- ## Date and Time
-- ## System
-  - ### Device Name and Kernal Version
-  - ### RAM Frequency in MHZ and GHZ
-  - ### Ram Usage
-  - ### Swap partiotion Usage
-- ## CPU & GPU
-  - ### Core Clock Usage and Speed of 6 Cores
-  - ### CPU Temperature
-  - ### GPU Temperature
-  - ### HDD Temperature
-  - ### SSD Temperature 
-  - ### Battery Remaining and Health
-  - ### Number of System Processes and User Processes
-- ## File System Usage
-  - ### Root Storage stats
-  - ### Home Storage Stats
-- ## Networking 
-  - ### Wifi (Download and Upload Speeds)
-- ## Top Processes
-  - ### Name, Process ID, CPU Usage and Memory Usage of top 3 processes
+- ### Date and Time
+- ### System
+  -  Device Name and Kernal Version
+  -  RAM Frequency in MHZ and GHZ
+  -  Ram Usage
+  -  Swap partiotion Usage
+- ### CPU & GPU
+  -  Core Clock Usage and Speed of 6 Cores
+  -  CPU Temperature
+  -  GPU Temperature
+  -  HDD Temperature
+  -  SSD Temperature 
+  -  Battery Remaining and Health
+  -  Number of System Processes and User Processes
+- ### File System Usage
+  -  Root Storage stats
+  -  Home Storage Stats
+- ### Networking 
+  -  Wifi (Download and Upload Speeds)
+- ### Top Processes
+  -  Name, Process ID, CPU Usage and Memory Usage of top 3 processes
   
 ---
 
 <br>
 
-# Installation Instructions
+## Installation Instructions
 
-## Installing Conky
+### Installing Conky
 
-### Installation on Debian and Ubuntu are as swift as can be via the terminal: 
+Installation on Debian and Ubuntu are as swift as can be via the terminal: 
 
 `sudo apt install conky`
 
 <br>
 
-### To install on Fedora: 
+To install on Fedora: 
 
 `sudo yum install conky`
 
 <br>
 
-### To install on Arch: 
+To install on Arch: 
 
 `pacman -S conky`
 
 <br>
 
-# Using and configuring Conky
+### Using and configuring Conky
 
 1. Download the .conky.rc file provided here. 
 2. For most of the linux distros(like Ubuntu) placing the .conky.rc in the home folder will work. But if it doesn't, try replacing it with the .conky.rc file present in /etc/conky.
